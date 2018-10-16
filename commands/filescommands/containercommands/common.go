@@ -2,7 +2,9 @@ package containercommands
 
 import (
 	"fmt"
+	"os"
 	"runtime"
+	"sort"
 	"sync"
 	"time"
 
@@ -32,11 +34,17 @@ func handleEmpty(command handler.Commander, resource *handler.Resource, params *
 		resource.Err = err
 		return
 	}
+	
 	names, err := objects.ExtractNames(allPages)
 	if err != nil {
 		resource.Err = err
 		return
 	}
+
+	fmt.Println("allPages:", allPages)
+	sort.Strings(allPages)
+	fmt.Println("allPages:", allPages)
+	os.Exit(0)
 
 	// send the object names into the `jobs` channel
 	jobs := make(chan string, len(names))
